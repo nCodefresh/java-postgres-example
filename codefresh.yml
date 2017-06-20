@@ -20,11 +20,13 @@ steps:
             - POSTGRES_USER=$POSTGRES_USER
             - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
             - POSTGRES_DB=$POSTGRES_DB
+          volumes_from:
+            - app-db-data
+        app-db-data:
+          image: cogniteev/echo
+          command: echo 'Data Container for PostgreSQL'
           volumes:
-                - postgres-data:/var/lib/postgresql/data
-      volumes:
-        postgres-data:
-          driver: local
+            - /var/lib/postgresql/data
     composition_candidates:
       test:
         image: ${{build_step}}
